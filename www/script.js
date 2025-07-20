@@ -64,3 +64,21 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     draw();
 });
+
+// Textillate animation for the heading
+$(function () {
+  $('.tlt').textillate({
+    loop: true,
+    minDisplayTime: 2000,
+    in: {
+      effect: 'fadeInLeftBig',
+      delayScale: 1.5,
+      delay: 50,
+      sync: false
+    },
+    out: {
+      effect: 'hinge',
+      sync: false
+    }
+  });
+});
