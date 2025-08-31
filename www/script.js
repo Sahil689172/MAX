@@ -82,3 +82,60 @@ $(function () {
     }
   });
 });
+
+// Input field and icon functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const maxInput = document.getElementById('maxInput');
+    const micBtn = document.getElementById('micBtn');
+    const chatBtn = document.getElementById('chatBtn');
+    const settingsBtn = document.getElementById('settingsBtn');
+
+    // Input field focus effects
+    maxInput.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+    });
+
+    maxInput.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+    });
+
+    // Enter key functionality
+    maxInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            const value = this.value.trim();
+            if (value) {
+                console.log('User input:', value);
+                // Add your processing logic here
+                this.value = '';
+            }
+        }
+    });
+
+    // Icon button click handlers (mic handled in main HTML)
+    // micBtn click handler moved to main HTML for SiriWave integration
+
+    chatBtn.addEventListener('click', function() {
+        console.log('Chat button clicked');
+        // Add chat functionality here
+        this.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 150);
+    });
+
+    settingsBtn.addEventListener('click', function() {
+        console.log('Settings button clicked');
+        // Add settings functionality here
+        this.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            this.style.transform = 'scale(1)';
+        }, 150);
+    });
+
+    // Add pulsing animation to icons
+    const icons = [micBtn, chatBtn, settingsBtn];
+    icons.forEach((icon, index) => {
+        icon.style.animationDelay = `${index * 0.2}s`;
+        icon.classList.add('pulse-glow');
+    });
+});
