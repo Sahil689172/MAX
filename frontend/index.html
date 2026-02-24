@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- NOTE: favicon asset was previously under assets/; remove or add your own favicon file -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="style.css" rel="stylesheet">
+    
+    <link href="../animate.css" rel="stylesheet">
+    <title>Voice Assistant</title>
+</head>
+<body>
+
+    <!-- Audio element for site sound -->
+    <audio id="siteSound" preload="auto">
+        <!-- NOTE: startup mp3 asset is currently missing; add one and update the path if you want sound -->
+    </audio>
+   
+    <div class="app-layout">
+        <div class="left-panel">
+            <div class="hero-container">
+                <section id="Oval">
+                    <div class="hero">
+                        <div id="JarvisWood">
+                            <div class="square">
+                                <span class="circle"></span>
+                                <span class="circle"></span>
+                                <span class="circle"></span>
+                            </div>
+                        </div>
+                        <h5 id="globeText" class="text text-light">What's on your mind?</h5>
+
+                        <!-- Search bar -->
+                        <div class="input-container">
+                            <div class="input-wrapper">
+                                <input type="text" id="maxInput" class="max-input" placeholder="Type here..." autocomplete="off">
+                                <div class="input-icons">
+                                    <button class="icon-btn" id="speakBtn" type="button" title="Speak">
+                                        <i class="bi bi-mic"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="terminal">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="terminal-title">MAX AI Terminal</span>
+                </div>
+                <div class="terminal-body" id="terminalOutput">
+                    <p><span class="prompt">></span> System Initialized...</p>
+                    <p><span class="prompt">></span> MAX AI Terminal v2.0</p>
+                    <p><span class="prompt">></span> Ready for commands.</p>
+                    <p class="cursor-line"><span class="prompt">></span> <span class="cursor-blink">_</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Vendor JS was moved to the project root -->
+    <script src="../jquery.lettering.js"></script>
+    <script src="../jquery.fittext.js"></script>
+    <script src="http://jschr.github.io/textillate/jquery.textillate.js"></script>
+    <script src="main.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <!-- Removed Eel bridge (Python backend) for frontend-only project -->
+
+    <!-- Audio autoplay functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const siteSound = document.getElementById('siteSound');
+            let soundPlayed = false;
+            
+            // (Removed) Text-to-speech via Eel backend.
+            // If you want browser TTS later, you can use Web Speech API (speechSynthesis).
+            
+            // Function to play sound
+            function playSiteSound() {
+                if (!soundPlayed && siteSound) {
+                    siteSound.play().then(() => {
+                        soundPlayed = true;
+                        console.log('Site sound played successfully');
+                    }).catch(error => {
+                        console.log('Autoplay blocked:', error);
+                        // Set up fallback for user interaction
+                        setupFallbackPlay();
+                    });
+                }
+            }
+            
+            // Function to set up fallback for user interaction
+            function setupFallbackPlay() {
+                if (soundPlayed) return;
+                
+                const playOnInteraction = function() {
+                    if (!soundPlayed && siteSound) {
+                        siteSound.play().then(() => {
+                            soundPlayed = true;
+                            console.log('Site sound played on user interaction');
+                        }).catch(error => {
+                            console.log('Failed to play sound:', error);
+                        });
+                    }
+                    // Remove event listeners after first interaction
+                    document.removeEventListener('click', playOnInteraction);
+                    document.removeEventListener('keydown', playOnInteraction);
+                    document.removeEventListener('touchstart', playOnInteraction);
+                };
+                
+                // Add event listeners for user interaction
+                document.addEventListener('click', playOnInteraction);
+                document.addEventListener('keydown', playOnInteraction);
+                document.addEventListener('touchstart', playOnInteraction);
+            }
+            
+            // Try to play sound on window load
+            window.addEventListener('load', function() {
+                // Small delay to ensure everything is loaded
+                setTimeout(playSiteSound, 100);
+            });
+            
+            // Also try on DOMContentLoaded as backup
+            playSiteSound();
+        });
+    </script>
+
+</body>
+</html>
